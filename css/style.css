@@ -789,6 +789,10 @@ section:nth-child(odd) .animate.scroll,
         background: var(--bg-color);
     }
 
+    .home {
+        background: var(--bg-color);
+    }
+
     #menu-icon {
         display: block;
     }
