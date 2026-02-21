@@ -64,4 +64,59 @@ document.addEventListener('DOMContentLoaded', () => {
             history.replaceState(null, '', url.pathname + url.hash);
         }
     }
+
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    const serviceId = form.dataset.emailjsService || '';
+    const templateId = form.dataset.emailjsTemplate || '';
+    const publicKey = form.dataset.emailjsPublicKey || '';
+
+    const showAlert = (msg, type = 'success') => {
+        const notice = document.createElement('div');
+        notice.className = `alert ${type}`;
+        notice.textContent = msg;
+        form.prepend(notice);
+        setTimeout(() => notice.remove(), 6000);
+    };
+
+    if (window.emailjs && publicKey && !publicKey.includes('REPLACE')) {
+        emailjs.init({ publicKey });
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!window.emailjs) {
+            showAlert('Email service unavailable. Please try again later.', 'error');
+            return;
+        }
+        if (
+            !publicKey || publicKey.includes('REPLACE') ||
+            !serviceId || serviceId.includes('REPLACE') ||
+            !templateId || templateId.includes('REPLACE')
+        ) {
+            showAlert('Email configuration missing. Set EmailJS keys in the form.', 'error');
+            return;
+        }
+
+        const name = form.querySelector('input[name="name"]')?.value?.trim() || '';
+        const email = form.querySelector('input[name="email"]')?.value?.trim() || '';
+        const subject = form.querySelector('input[name="subject"]')?.value?.trim() || '';
+        const phone = form.querySelector('input[name="phone"]')?.value?.trim() || '';
+        const message = form.querySelector('textarea[name="message"]')?.value?.trim() || '';
+
+        try {
+            await emailjs.send(serviceId, templateId, {
+                from_name: name,
+                reply_to: email,
+                subject,
+                phone,
+                message
+            });
+            showAlert('Thanks! Your message has been sent.', 'success');
+            form.reset();
+        } catch (err) {
+            showAlert('Failed to send message. Please try again.', 'error');
+        }
+    });
 });

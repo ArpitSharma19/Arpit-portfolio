@@ -248,12 +248,10 @@
     <section class="contact" id="contact">
         <h2 class="heading">Contact <span>Me!</span><span class="animate scroll" style="--i:1;"></span></h2>
 
-        <form action="https://formsubmit.co/arpit.atrii@gmail.com" method="POST" />
-            <input type="hidden" name="_subject" value="New message from portfolio contact form">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="./?success=1#contact">
-            <input type="text" name="_honey" style="display:none">
+        <form id="contact-form" action="#" method="POST"
+              data-emailjs-service="REPLACE_WITH_SERVICE_ID"
+              data-emailjs-template="REPLACE_WITH_TEMPLATE_ID"
+              data-emailjs-public-key="REPLACE_WITH_PUBLIC_KEY">
             <div class="input-box">
                 <div class="input-field">
                     <input type="text" name="name" placeholder="Full Name" required>
@@ -305,6 +303,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 

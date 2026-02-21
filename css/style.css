@@ -664,6 +664,12 @@ width: 100%;
     color: #b2f5dc;
 }
 
+.alert.error {
+    border-color: #ff6b6b;
+    background: rgba(255, 107, 107, .15);
+    color: #ffdede;
+}
+
 .footer {
     display: flex;
     justify-content: space-between;
