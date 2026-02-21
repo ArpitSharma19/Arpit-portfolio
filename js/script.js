@@ -44,3 +44,24 @@ window.onscroll = () => {
     let footer = document.querySelector('footer');
     footer.classList.toggle('show-animate', this.innerHeight + this.scrollY >= document.scrollingElement.scrollHeight);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === '1') {
+        const contactSection = document.querySelector('.contact form');
+        if (contactSection) {
+            const notice = document.createElement('div');
+            notice.className = 'alert success';
+            notice.textContent = 'Thanks! Your message has been sent.';
+            contactSection.prepend(notice);
+            setTimeout(() => {
+                notice.remove();
+            }, 6000);
+        }
+        if (history.replaceState) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('success');
+            history.replaceState(null, '', url.pathname + url.hash);
+        }
+    }
+});
